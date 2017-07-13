@@ -1,15 +1,13 @@
 L.TimeDimension.WmsTimeInterval = L.TimeDimension.extend({
     initialize: function (options) {
+        //this.options.limitSliders=false;
         L.TimeDimension.prototype.initialize.call(this, options);
-        this._fixedStartTime = this.options.fixedStartTime || false;
         this._fixedStartTimeValue = null;    
     },
 
     getfixedStartTimeValue: function () {
-         if (this._fixedStartTime) {
-            if (this._availableTimes.length > 0) {
-                this._fixedStartTimeValue = this._availableTimes[this._lowerLimit || 0]
-            }
+        if (this._availableTimes.length > 0) {
+            this._fixedStartTimeValue = this._availableTimes[this._lowerLimit || 0]
         }
         return this._fixedStartTimeValue;
     },
@@ -22,33 +20,22 @@ L.TimeDimension.WmsTimeInterval = L.TimeDimension.extend({
 
     setAvailableTimes: function (times, mode) {
         L.TimeDimension.prototype.setAvailableTimes.call(this, times, mode);
-        if (this._fixedStartTime) {
-            if (this._availableTimes.length > 0) {
-                this._fixedStartTimeValue = this._availableTimes[0];
-            }
-        }        
+        if (this._availableTimes.length > 0) {
+            this._fixedStartTimeValue = this._availableTimes[0];
+        }
      },
 
     setLowerLimitIndex: function (index) {
-         this._lowerLimit = Math.min(Math.max(index || 0, 0), this._upperLimit || this._availableTimes.length - 1);
-        if (this._fixedStartTime)
-        {
-            this._fixedStartTimeValue=this._availableTimes[this._lowerLimit];
-        }
-         this.fire('limitschanged', {
-             lowerLimit: this._lowerLimit,
-             upperLimit: this._upperLimit
-         });
+        this._lowerLimit = Math.min(Math.max(index || 0, 0), this._upperLimit || this._availableTimes.length - 1);
+        this._fixedStartTimeValue=this._availableTimes[this._lowerLimit];
+        this.fire('limitschanged', {
+            lowerLimit: this._lowerLimit,
+            upperLimit: this._upperLimit
+        });
     },    
 });
 
-
-L.Control.TimeDimension.WmsTimeInterval =  L.Control.TimeDimension.extend({
-    options: {
-        rangeSlider: true,
-        //upperSlider: true,
-    },
-    
+L.Control.TimeDimension.WmsTimeInterval =  L.Control.TimeDimension.extend({        
     initialize: function(options) {
         L.Util.setOptions(this, options);
         L.Control.TimeDimension.prototype.initialize.call(this, options);        
@@ -78,12 +65,12 @@ L.Control.TimeDimension.WmsTimeInterval =  L.Control.TimeDimension.extend({
          var sliderContainer,
              sliderbar,
              max,
-             knob, limits;
+             knob, limits;            
          sliderContainer = L.DomUtil.create('div', className, container);        
          sliderbar = L.DomUtil.create('div', 'slider', sliderContainer);
          max = this._timeDimension.getAvailableTimes().length - 1;
  
-         if (this.options.limitSliders) {
+         if (this.options.limitSliders) {             
              limits = this._limitKnobs = this._createLimitKnobs(sliderbar);
          }
          knob = new L.UI.Knob(sliderbar, {
@@ -148,23 +135,16 @@ L.Control.TimeDimension.WmsTimeInterval =  L.Control.TimeDimension.extend({
 
         
     _createLimitKnobs: function(sliderbar) {
-         L.DomUtil.addClass(sliderbar, 'has-limits');
-         var max = this._timeDimension.getAvailableTimes().length - 1;
-        if (this.options.lowerSlider && this.options.upperSlider)
-            var rangeBar = L.DomUtil.create('div', 'range', sliderbar);
-        else if (this.options.upperSlider)
-            var rangeBar = L.DomUtil.create('div', 'range rangeNoLower', sliderbar);
-        else if (this.options.lowerSlider)
-            var rangeBar = L.DomUtil.create('div', 'range rangeNoUpper', sliderbar);
-        else
-            var rangeBar = L.DomUtil.create('div', 'range rangeNoLowerNoUpper', sliderbar);
-         var lknob = new L.UI.Knob(sliderbar, {
-            className: 'knob lower' + (this.options.lowerSlider ? '' : ' hidden'),
+        L.DomUtil.addClass(sliderbar, 'has-limits');
+        var max = this._timeDimension.getAvailableTimes().length - 1;
+        var rangeBar = L.DomUtil.create('div', 'range', sliderbar);        
+        var lknob = new L.UI.Knob(sliderbar, {
+            className: 'knob lower', 
              rangeMin: 0,
              rangeMax: max
          });
          var uknob = new L.UI.Knob(sliderbar, {
-            className: 'knob upper' + (this.options.upperSlider ? '' : ' hidden'),
+            className: 'knob upper hidden', 
              rangeMin: 0,
              rangeMax: max
         });        
