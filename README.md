@@ -3,11 +3,4 @@ Plugin to add the possibility to display a WMS layers not for a single time but 
 
 var timeDimension = new L.TimeDimension.WmsTimeInterval();      
 
-var timeDimensionControlOptions = {
-        ....
-        lowerSlider: true,
-        upperSlider: false,
-        ...
-    };
-
 timeDimensionControl = new L.Control.TimeDimension.WmsTimeInterval(timeDimensionControlOptions).addTo(map);
