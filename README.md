@@ -3,6 +3,7 @@ Plugin to add the possibility to display a WMS layers not for a single time but 
 
 How to use:
 
+### TimeDimension WMS layer
 instead of 
 ```javascript
     L.timeDimension.layer.wms
@@ -12,14 +13,7 @@ use
     L.timeDimension.layer.wms.wmsTimeInterval
 ```
 
-instead of 
-```javascript
-    var timeDimensionControl = new L.Control.TimeDimension(timeDimensionControlOptions);
-```
-use
-```javascript
-    var timeDimensionControl = new L.Control.TimeDimension.WmsTimeInterval(timeDimensionControlOptions);
-```
+### TimeDimension Control
 
 instead of 
 ```javascript
@@ -42,4 +36,13 @@ use
         },
         timeDimensionControlWmsTimeInterval: true,
     });
+```
+
+if creating control outside map initialization, instead of 
+```javascript
+    var timeDimensionControl = L.control.timeDimension(timeDimensionControlOptions);
+```
+use
+```javascript
+    var timeDimensionControl = L.control.timeDimension.wmsTimeInterval(timeDimensionControlOptions);
 ```
