@@ -232,6 +232,18 @@ L.Control.TimeDimension.WmsTimeInterval =  L.Control.TimeDimension.extend({
 
 });
 
+L.Map.addInitHook(function() {
+    if (this.options.timeDimensionControlWmsTimeInterval) {
+        this.timeDimensionControl = L.control.timeDimension.wmsTimeInterval(this.options.timeDimensionControlOptions || {});
+        this.addControl(this.timeDimensionControl);
+    }
+});
+
+L.control.timeDimension.wmsTimeInterval = function(options) {
+    return new L.Control.TimeDimension.WmsTimeInterval(options);
+};
+
+
 L.TimeDimension.Layer.WMS.WmsTimeInterval = L.TimeDimension.Layer.WMS.extend({
 
      _createLayerForTime: function(time) {
