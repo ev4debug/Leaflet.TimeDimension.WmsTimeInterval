@@ -297,25 +297,6 @@ L.TimeDimension.Layer.WMS.WmsTimeInterval = L.TimeDimension.Layer.WMS.extend({
 
 });
 
-
-L.NonTiledLayer.include({
-         isLoaded: function() {
-        if (this.options.bounds)
-            return map.getBounds().contains(this.options.bounds) ? this._loaded : true;
-        else
-            return this._loaded;
-     }
-});
-
-L.TileLayer.include({
-     isLoaded: function() {
-        if (this.options.bounds)
-            return map.getBounds().contains(this.options.bounds) ? this._loaded : true;
-        else
-            return this._loaded;
-     }
-});
-
 L.timeDimension.layer.wms.wmsTimeInterval = function (layer, options) {
     return new L.TimeDimension.Layer.WMS.WmsTimeInterval(layer, options);
 };
