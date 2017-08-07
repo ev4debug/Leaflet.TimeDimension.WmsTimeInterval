@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Leaflet TimeDimension WmsTimeInterval</title>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.1.0/leaflet.css" />
+		<link rel="stylesheet" href="https://rawgit.com/socib/Leaflet.TimeDimension/master/src/leaflet.timedimension.control.css" />       
+        <link rel="stylesheet" href="https://rawgit.com/ev4debug/Leaflet.TimeDimension.WmsTimeInterval/master/Leaflet.TimeDimension.WmsTimeInterval.control.css" />       
+    </head>
+    <body>
+        <div class="container">
+            <div id="header">
+                <h1>Leaflet TimeDimension WmsTimeInterval example</h1>                                
+            </div>
+            <div id="map" style='height: 500px;width: 1000px;'></div>                                  
+        </div>
+
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.1.0/leaflet.js"></script>
+        <script type="text/javascript" src="https://cdn.rawgit.com/nezasa/iso8601-js-period/master/iso8601.min.js"></script>
+        
+        <script type="text/javascript" src="https://rawgit.com/socib/Leaflet.TimeDimension/master/src/leaflet.timedimension.js"></script>
+        <script type="text/javascript" src="https://rawgit.com/socib/Leaflet.TimeDimension/master/src/leaflet.timedimension.util.js"></script>
+        <script type="text/javascript" src="https://rawgit.com/socib/Leaflet.TimeDimension/master/src/leaflet.timedimension.layer.js"></script>
+        <script type="text/javascript" src="https://rawgit.com/socib/Leaflet.TimeDimension/master/src/leaflet.timedimension.layer.wms.js"></script>
+        <script type="text/javascript" src="https://rawgit.com/socib/Leaflet.TimeDimension/master/src/leaflet.timedimension.player.js"></script>
+        <script type="text/javascript" src="https://rawgit.com/socib/Leaflet.TimeDimension/master/src/leaflet.timedimension.control.js"></script>                
+		<script type="text/javascript" src="https://rawgit.com/ev4debug/Leaflet.TimeDimension.WmsTimeInterval/master/Leaflet.TimeDimension.WmsTimeInterval.js"></script>
+		
+        
+
+    </body>
+	<script>
+	var map = L.map('map', {
+		zoom: 5,
+		fullscreenControl: true,
+		timeDimensionWmsTimeInterval: true,
+		timeDimensionControlOptions: {
+			limitSliders: true
+		},
+		timeDimensionControlWmsTimeInterval: true,
+		center: [38.0, 15.0]
+	});
+	var bathymetryLayer = L.tileLayer.wms("http://ows.emodnet-bathymetry.eu/wms", {
+        layers: 'emodnet:mean_atlas_land',
+        format: 'image/png',
+        transparent: true,
+        attribution: "EMODnet Bathymetry",
+        opacity: 0.8
+    }).addTo(map);
+	var routeLayer = L.tileLayer.wms("http://geoserver.emodnet-physics.eu/geoserver/emodnet/route_db_temp_60dx2/wms", {
+		layers: 'route_db_temp_60dx2',
+		format: 'image/png',
+		transparent: true,		
+	});
+	var routeTimeLayer = L.timeDimension.layer.wms.wmsTimeInterval(routeLayer, {
+		updateTimeDimension: true,
+	}).addTo(map);
+	</script>
+</html>
