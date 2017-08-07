@@ -233,9 +233,12 @@ L.Control.TimeDimension.WmsTimeInterval =  L.Control.TimeDimension.extend({
 });
 
 L.Map.addInitHook(function() {
-    if (this.options.timeDimensionControlWmsTimeInterval) {
+    if (this.options.timeDimensionWmsTimeInterval) {
+        this.timeDimension =L.timeDimension.wmsTimeInterval(this.options.timeDimensionOptions || {});
+    }
+    if (this.options.timeDimensionControlWmsTimeInterval) {        
         this.timeDimensionControl = L.control.timeDimension.wmsTimeInterval(this.options.timeDimensionControlOptions || {});
-        this.addControl(this.timeDimensionControl);
+        this.addControl(this.timeDimensionControl);        
     }
 });
 
@@ -300,3 +303,8 @@ L.TimeDimension.Layer.WMS.WmsTimeInterval = L.TimeDimension.Layer.WMS.extend({
 L.timeDimension.layer.wms.wmsTimeInterval = function (layer, options) {
     return new L.TimeDimension.Layer.WMS.WmsTimeInterval(layer, options);
 };
+
+L.timeDimension.wmsTimeInterval=function(timeDimensionOptions)
+{
+    return new L.TimeDimension.WmsTimeInterval(timeDimensionOptions || {});
+}

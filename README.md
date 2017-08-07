@@ -30,7 +30,7 @@ use
 ```javascript
     var map = L.map('map', {
         ...
-        timeDimension: true,
+        timeDimensionWmsTimeInterval: true,
         timeDimensionOptions: {
             ....
         },
